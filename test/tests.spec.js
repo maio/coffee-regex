@@ -15,19 +15,25 @@ describe("match", function () {
   describe(". character", function () {
     it("matches any character", function () {
       expect(match('a', '.')).to.equal(true);
+      expect(match('aa', '..')).to.equal(true);
     });
 
-    // it("matches any character", function () {
-    //   expect(match('aa', '..')).to.equal(true);
-    // });
+    it("matches any character (..)", function () {
+      expect(match('aa', '..')).to.equal(true);
+    });
 
     it("doesn't match empty string", function () {
       expect(match('', '.')).to.equal(false);
+    });
+
+    it("doesn't match empty string (..)", function () {
+      expect(match('a', '..')).to.equal(false);
     });
   });
 });
 
 
+// a,,true
 // a,a,true
 // a,b,false
 
