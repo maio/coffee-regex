@@ -1,7 +1,15 @@
+function newState(s, pattern) {
+  return {
+    ok: true,
+    s,
+    pattern
+  };
+}
+
 function nextState(ok, rest) {
   return {
     ok,
-    rest
+    s: rest
   };
 }
 
@@ -25,6 +33,22 @@ function charMatch(s, char) {
   return nextState(s[0] === char, s.substr(1));
 }
 
+function buildNext(state) {
+  const { s, pattern } = state;
+
+  if (pattern[0] === '.') {
+    return {
+      matchFn: anyCharMatch,
+      restPattern: pattern.substr(1)
+    };
+  }
+
+  return {
+    matchFn: (s) => charMatch(s, pattern[0]),
+    restPattern: pattern.substr(1)
+  };
+};
+
 function _match(state) {
   const { s, pattern } = state;
 
@@ -32,19 +56,12 @@ function _match(state) {
     return true;
   }
 
-  if (pattern[0] === '.') {
-    const { ok, rest } = anyCharMatch(s);
-    return ok && _match({
-      ...state,
-      s: rest,
-      pattern: pattern.substr(1)
-    });
-  }
+  const { matchFn, restPattern } =  buildNext(state);
 
-  const { ok, rest } = charMatch(s, pattern[0]);
-  return ok && _match({
-    s: rest,
-    pattern: pattern.substr(1)
+  const result = matchFn(s);
+  return result.ok && _match({
+    ...result,
+    pattern: restPattern
   });
 }
 
