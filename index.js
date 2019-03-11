@@ -26,7 +26,7 @@ function charMatch(s, char) {
 }
 
 function match(s, pattern) {
-  if (pattern === '') {
+  if (pattern === '' && s === '') {
     return true;
   }
 

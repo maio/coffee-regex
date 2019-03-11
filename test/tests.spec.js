@@ -34,6 +34,10 @@ describe("match", function () {
     it("doesn't match empty string (..)", function () {
       expect(match('a', '..')).to.equal(false);
     });
+
+    it("matches only one char", function () {
+      expect(match('aa', '.')).to.equal(false);
+    });
   });
 });
 
