@@ -22,6 +22,11 @@ describe("match", function () {
       expect(match('aa', '..')).to.equal(true);
     });
 
+    it("matches any character (between literals)", function () {
+      expect(match('abc', 'a.c')).to.equal(true);
+      expect(match('abbc', 'a..c')).to.equal(true);
+    });
+
     it("doesn't match empty string", function () {
       expect(match('', '.')).to.equal(false);
     });
