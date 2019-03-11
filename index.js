@@ -25,18 +25,34 @@ function charMatch(s, char) {
   return nextState(s[0] === char, s.substr(1));
 }
 
-function match(s, pattern) {
+function _match(state) {
+  const { s, pattern } = state;
+
   if (pattern === '' && s === '') {
     return true;
   }
 
   if (pattern[0] === '.') {
     const { ok, rest } = anyCharMatch(s);
-    return ok && match(rest, pattern.substr(1));
+    return ok && _match({
+      ...state,
+      s: rest,
+      pattern: pattern.substr(1)
+    });
   }
 
   const { ok, rest } = charMatch(s, pattern[0]);
-  return ok && match(rest, pattern.substr(1));
+  return ok && _match({
+    s: rest,
+    pattern: pattern.substr(1)
+  });
+}
+
+function match(s, pattern) {
+  return _match({
+    s,
+    pattern
+  });
 }
 
 module.exports = {
