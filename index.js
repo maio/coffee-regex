@@ -5,7 +5,7 @@ function nextState(ok, rest) {
   };
 }
 
-function exactMatch(pattern, s) {
+function exactMatch(s, pattern) {
   if (s !== pattern) {
     return false;
   }
@@ -31,7 +31,7 @@ function match(s, pattern) {
     return ok && match(rest, pattern.substr(1));
   }
 
-  return exactMatch(pattern, s);
+  return exactMatch(s, pattern);
 }
 
 module.exports = {
